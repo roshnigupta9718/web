@@ -14,7 +14,25 @@
 
 <meta name="author" content="Ragini Gupta">
 <style>
+/* Photos container: center and constrain width */
+#photoscontainer {
+  max-width: 600px;   /* maximum display width */
+  margin: 0 auto;     /* center the container */
+  padding: 12px;
+  text-align: center;
+}
 
+/* Make the image responsive and nicely styled */
+#photoscontainer img {
+  display: block;
+  width: 100%;        /* fill the container while remaining responsive */
+  max-width: 600px;   /* don't grow beyond natural max */
+  height: auto;       /* preserve aspect ratio */
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  object-fit: cover;  /* useful if image is used in a fixed-size box */
+}
 body{
 font-family: Arial, sans-serif;
 margin:0;
