@@ -10,7 +10,7 @@
 
 <meta name="description" content=" raginimakeover_12,Professional Bridal Makeup Artist Ragini Gupta. 500+ brides prepared. Book now for weddings from March to July.">
 
-<meta name="keywords" content="SOHAGI,SIDHI,Vindhyanagar,Bargawan, Morwa, Waidhan,Deosar, Chitrangi, Mada, Sarai, and Bargawan, raginimakeover_12,  SINGRAULI ,  Bridal Makeup Artist, Ragini Gupta [...]
+<meta name="keywords" content="SOHAGI,SIDHI,Vindhyanagar,Bargawan, Morwa, Waidhan,Deosar, Chitrangi, Mada, Sarai, and Bargawan, raginimakeover_12,  SINGRAULI ,  Bridal Makeup Artist, Ragini Gupta [...][">
 
 <meta name="author" content="Ragini Gupta">
 <style>
@@ -108,6 +108,81 @@ padding:15px;
 background:#ffccd5;
 }
 
+/* Gallery styles */
+.gallery-wrap{
+  max-width:1100px;
+  margin: 20px auto;
+  padding: 0 12px 30px;
+}
+.gallery-row{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding:12px 6px;
+  -webkit-overflow-scrolling:touch;
+}
+.gallery-row::-webkit-scrollbar{height:10px}
+.gallery-row::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12);border-radius:10px}
+.gallery-thumb{
+  flex:0 0 auto;
+  width:180px;
+  height:120px;
+  border-radius:8px;
+  overflow:hidden;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+.gallery-thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s ease;
+}
+.gallery-thumb:focus, .gallery-thumb:hover{outline:none}
+.gallery-thumb:hover img{transform:scale(1.04)}
+
+/* Modal / slider */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:20px;
+}
+.modal.open{display:flex}
+.modal-content{
+  position:relative;
+  max-width:90%;
+  max-height:90%;
+}
+.modal-image{
+  display:block;
+  max-width:100%;
+  max-height:80vh;
+  border-radius:8px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.5);
+}
+.modal-caption{color:#fff;text-align:center;margin-top:8px}
+.modal-close, .modal-prev, .modal-next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:rgba(255,255,255,0.12);
+  color:#fff;
+  border:none;
+  padding:10px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+.modal-close{top:12px; right:12px; transform:none}
+.modal-prev{left:-60px}
+.modal-next{right:-60px}
+@media (max-width:700px){
+  .gallery-thumb{width:140px;height:95px}
+  .modal-prev{left:6px}
+  .modal-next{right:6px}
+}
+
 </style>
 </head>
 
@@ -139,6 +214,41 @@ background:#ffccd5;
 <a class="btn" href="https://wa.me/917489689706" target="_blank">Book on WhatsApp</a>
 
 </section>
+
+<!-- Gallery section: horizontal thumbnails and clickable slider -->
+<section class="gallery-wrap" aria-label="Gallery">
+  <h2 style="text-align:center">Gallery</h2>
+  <p style="text-align:center; margin-top:6px; color:#666;">Swipe or scroll horizontally. Click any image to open slider.</p>
+  <div class="gallery-row" id="galleryRow">
+    <!-- Replace these filenames with the actual image names in your repo -->
+    <button class="gallery-thumb" data-index="0" aria-label="Open image 1">
+      <img src="Screenshot%20(93).png" alt="Bride 1">
+    </button>
+    <button class="gallery-thumb" data-index="1" aria-label="Open image 2">
+      <img src="Screenshot%20(94).png" alt="Bride 2">
+    </button>
+    <button class="gallery-thumb" data-index="2" aria-label="Open image 3">
+      <img src="Screenshot%20(95).png" alt="Bride 3">
+    </button>
+    <button class="gallery-thumb" data-index="3" aria-label="Open image 4">
+      <img src="Screenshot%20(96).png" alt="Bride 4">
+    </button>
+    <button class="gallery-thumb" data-index="4" aria-label="Open image 5">
+      <img src="Screenshot%20(97).png" alt="Bride 5">
+    </button>
+  </div>
+</section>
+
+<!-- Modal slider -->
+<div class="modal" id="imageModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+    <button class="modal-prev" id="modalPrev" aria-label="Previous">◀</button>
+    <img src="" alt="" class="modal-image" id="modalImage">
+    <button class="modal-next" id="modalNext" aria-label="Next">▶</button>
+    <div class="modal-caption" id="modalCaption"></div>
+  </div>
+</div>
 
 <section class="section">
 
@@ -199,6 +309,88 @@ background:#ffccd5;
 <p>© 2026 Bride by Ragini Gupta | Makeup Artist</p>
 
 </footer>
+
+<script>
+(function(){
+  // List of image sources and captions used by the modal. Keep in sync with thumbnails above.
+  const images = [
+    { src: 'Screenshot%20(93).png', alt: 'Bride 1 - Bridal look by Ragini Gupta' },
+    { src: 'Screenshot%20(94).png', alt: 'Bride 2 - Bridal look by Ragini Gupta' },
+    { src: 'Screenshot%20(95).png', alt: 'Bride 3 - Bridal look by Ragini Gupta' },
+    { src: 'Screenshot%20(96).png', alt: 'Bride 4 - Bridal look by Ragini Gupta' },
+    { src: 'Screenshot%20(97).png', alt: 'Bride 5 - Bridal look by Ragini Gupta' }
+  ];
+
+  const modal = document.getElementById('imageModal');
+  const modalImage = document.getElementById('modalImage');
+  const modalCaption = document.getElementById('modalCaption');
+  const closeBtn = document.getElementById('modalClose');
+  const prevBtn = document.getElementById('modalPrev');
+  const nextBtn = document.getElementById('modalNext');
+
+  let currentIndex = 0;
+
+  function openModal(index){
+    currentIndex = index;
+    updateModal();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    // focus for accessibility
+    closeBtn.focus();
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+  function updateModal(){
+    const item = images[currentIndex];
+    modalImage.src = item.src;
+    modalImage.alt = item.alt;
+    modalCaption.textContent = (currentIndex+1) + ' / ' + images.length + ' — ' + item.alt;
+  }
+  function showNext(){
+    currentIndex = (currentIndex + 1) % images.length;
+    updateModal();
+  }
+  function showPrev(){
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    updateModal();
+  }
+
+  // Attach click handlers to thumbnails
+  document.querySelectorAll('.gallery-thumb').forEach(btn => {
+    btn.addEventListener('click', function(e){
+      const idx = Number(btn.getAttribute('data-index'));
+      if (!isNaN(idx)) openModal(idx);
+    });
+    // allow keyboard enter/space to open
+    btn.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  prevBtn.addEventListener('click', showPrev);
+  nextBtn.addEventListener('click', showNext);
+
+  // keyboard navigation
+  document.addEventListener('keydown', function(e){
+    if (modal.classList.contains('open')){
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'Escape') closeModal();
+    }
+  });
+
+  // click outside to close
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) closeModal();
+  });
+
+})();
+</script>
 
 </body>
 
